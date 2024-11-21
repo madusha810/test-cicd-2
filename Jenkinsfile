@@ -11,26 +11,25 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {  
-                sh 'docker build -t madusha810/nodeapp-cuban:1 .'
+                script {
+                    sh 'docker build -t madusha810/nodeapp-cuban:1 .'
+                }
             }
         }
-        stage('Push') {
+        stage('Push Docker Image') {
             steps {
-                     docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-                     sh 'docker push madusha810/nodeapp-cuban:1'
-                 }
-              }
-        
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+                        sh 'docker push madusha810/nodeapp-cuban:1'
+                    }
+                }
             }
         }
-        // stage('Push Image') {
-        //     steps {
-        //         sh 'docker push madusha810/nodeapp-cuban:1'
-        //     }
-        // }
     }
-    // post {
-    //     always {
-    //         sh 'docker logout'
-    //     }
-    // }
+    
+    post {
+        always {
+            sh 'docker logout || true' // Ensures logout doesn't fail the pipeline if already logged out
+        }
+    }
+}
