@@ -14,20 +14,20 @@ pipeline {
                 sh 'docker build -t madusha810/nodeapp-cuban:1 .'
             }
         }
-        stage('Login to Docker Hub') {
+        stage('Push') {
             steps {
-                withCredentials([string(credentialsId: 'dh-password-id', variable: 'dockerhub-password')]) {
-                    script {
-                        sh "docker login -u madusha810 -p %dockerhub-password%"
-                    }
-                }
+                     docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+                     sh 'docker push madusha810/nodeapp-cuban:1'
+                 }
+              }
+        
             }
         }
-        stage('Push Image') {
-            steps {
-                sh 'docker push madusha810/nodeapp-cuban:1'
-            }
-        }
+        // stage('Push Image') {
+        //     steps {
+        //         sh 'docker push madusha810/nodeapp-cuban:1'
+        //     }
+        // }
     }
     post {
         always {
