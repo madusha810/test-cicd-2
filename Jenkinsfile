@@ -12,15 +12,15 @@ pipeline {
         stage('Build Docker Image') {
             steps {  
                 script {
-                    sh 'docker build -t madusha810/nodeapp-cuban:1 .'
+                    sh 'docker build -t madusha810/nodeapp-cuban:latest .'
                 }
             }
         }
         stage('Push Docker Image') {
             steps {
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-                        sh 'docker push madusha810/nodeapp-cuban:1'
+                    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub') {
+                        sh 'docker push madusha810/nodeapp-cuban:latest'
                     }
                 }
             }
