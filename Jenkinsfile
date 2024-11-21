@@ -11,7 +11,7 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {  
-                sh 'docker build -t madusha810/nodeapp-cuban.'
+                sh 'docker build -t madusha810/nodeapp-cuban:1'
             }
         }
         stage('Login to Docker Hub') {
@@ -25,7 +25,7 @@ pipeline {
         }
         stage('Push Image') {
             steps {
-                sh 'docker push madusha810/nodeapp-cuban'
+                sh 'docker push madusha810/nodeapp-cuban:1'
             }
         }
     }
