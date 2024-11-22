@@ -12,19 +12,29 @@ pipeline {
         stage('Build Docker Image') {
             steps {  
                 script {
-                    sh 'docker build -t madusha810/nodeapp-cuban:latest .'
+                    sh 'docker build -t nodeapp-cuban:latest .'
                 }
             }
         }
-        stage('Push Docker Image') {
+        // stage('Push Docker Image') {
+        //     steps {
+        //         script {
+        //             docker.withRegistry('https://index.docker.io/v1/', 'dockerhub') {
+        //                 sh 'docker push madusha810/nodeapp-cuban:latest'
+        //             }
+        //         }
+        //     }
+        // }
+
+        stage('Run Docker Container') {
             steps {
                 script {
-                    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub') {
-                        sh 'docker push madusha810/nodeapp-cuban:latest'
-                    }
+                    sh "docker run --name node-app-container nodeapp-cuban"
                 }
             }
         }
+
+
     }
     
     post {
